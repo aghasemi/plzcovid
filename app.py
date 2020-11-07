@@ -48,7 +48,7 @@ for i,plz in enumerate(chosen_plzs):
     cases_per_plz = cases[cases.PLZ == plz]
     chart  += alt.Chart(cases_per_plz).mark_area(opacity = 0.25,color = color).encode(x=x_axis, y=y_axis, y2=alt.Y2(plot_y_axis_column_max), tooltip = tooltip)
     chart  += alt.Chart(cases_per_plz).mark_line(color = color).encode(x=x_axis, y=y_axis, tooltip = tooltip)
-    st.markdown(f' {plz} {plz_name[plz]} is {color}')
+    st.markdown(f' {cases_per_plz.iloc[0].Name} is {color}')
 
 
 st.altair_chart(chart.configure_title(fontSize=14).configure(background='#F9F9F0') , use_container_width=True)
