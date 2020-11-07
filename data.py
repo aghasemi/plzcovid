@@ -45,5 +45,5 @@ def load_data():
     cases['Name'] = cases['PLZ'].apply(lambda plz: plz+' '+plz_name[plz])
     cases['Area'] = cases['PLZ'].apply(lambda plz: plz_area[plz])
 
-    return cases, plz_name
+    return cases
 
