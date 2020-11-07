@@ -40,15 +40,15 @@ cases = cases[ (cases.Date >= pd.Timestamp(start_date, tz="Europe/Paris")) & (ca
 
 chart = alt.LayerChart()
 #st.markdown("### Evolution of Covid-19 cases for the chosen postal codes")
-tooltip = ['Date','PLZ',alt.Tooltip(plot_y_axis_column_min, title='Min', format='0.3'),alt.Tooltip(plot_y_axis_column_max, title='Max', format='0.3')]
+tooltip = ['Date','Name','Population',alt.Tooltip('Area',title='Area (km²)', format='0.3'),alt.Tooltip(plot_y_axis_column_min, title='Min', format='0.3'),alt.Tooltip(plot_y_axis_column_max, title='Max', format='0.3')]
+x_axis = alt.X('Date', axis=alt.Axis(labels=True, format = '%d %b'))
+y_axis = alt.Y(plot_y_axis_column_avg,title=plot_y_axis_title)
 for i,plz in enumerate(chosen_plzs):
     color = colors[i]
     cases_per_plz = cases[cases.PLZ == plz]
-    chart  += alt.Chart(cases_per_plz).mark_area(opacity = 0.25,color = color).encode(x=alt.X('Date', axis=alt.Axis(labels=True, format = '%d %b')), y=alt.Y(plot_y_axis_column_min,title=plot_y_axis_title), y2=alt.Y2(plot_y_axis_column_max), tooltip = tooltip)
-    chart  += alt.Chart(cases_per_plz).mark_line(color = color).encode(x=alt.X('Date', axis=alt.Axis(labels=True, format = '%d %b')), y=alt.Y(plot_y_axis_column_avg,title=plot_y_axis_title), tooltip = tooltip)
+    chart  += alt.Chart(cases_per_plz).mark_area(opacity = 0.25,color = color).encode(x=x_axis, y=y_axis, y2=alt.Y2(plot_y_axis_column_max), tooltip = tooltip)
+    chart  += alt.Chart(cases_per_plz).mark_line(color = color).encode(x=x_axis, y=y_axis, tooltip = tooltip)
+    st.markdown(f' {plz} {plz_name[plz]} is {color}')
+
 
 st.altair_chart(chart.configure_title(fontSize=14).configure(background='#F9F9F0') , use_container_width=True)
-
-for i,plz in enumerate(chosen_plzs):
-    color = colors[i]
-    st.markdown(f' {plz} {plz_name[plz]} is {color}')

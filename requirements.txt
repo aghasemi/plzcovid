@@ -3,3 +3,4 @@ urllib
 json
 streamlit
 cachetools
+area
