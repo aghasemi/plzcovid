@@ -3,13 +3,12 @@ import pandas as pd
 import altair as alt
 
 from data import load_data
-# https://discuss.streamlit.io/t/custom-render-widths/81/9
 
 st.set_page_config(page_title='Evolution of Covid-19 Cases in Canton Zürich per Postal Code')
-st.markdown("<style>.reportview-container .main .block-container{ max-width: 2000px; } </style>",unsafe_allow_html=True,) #Makes the page wide
+st.markdown("<style>.reportview-container .main .block-container{ max-width: 2000px; } </style>",unsafe_allow_html=True,) #Makes the page wide: https://discuss.streamlit.io/t/custom-render-widths/81/9
 st.title("Evolution of Covid-19 Cases in Canton Zürich per Postal Code")
 
-st.markdown('The data are provided by the [@OpenDaataZH](https://twitter.com/OpenDataZurich) in their [Covid-19 GitHub repository](https://github.com/openZH/covid_19). All the credit goes to them.')
+st.markdown('The data are provided by [@OpenDataZH](https://twitter.com/OpenDataZurich) in their [Covid-19 GitHub repository](https://github.com/openZH/covid_19). All the credit goes to them.')
 
 
 pd.set_option('display.max_colwidth', None)
