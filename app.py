@@ -7,7 +7,6 @@ from data import load_data
 st.set_page_config(page_title='Evolution of Covid-19 Cases in Canton Zürich per Postal Code')
 st.markdown("<style>.reportview-container .main .block-container{ max-width: 2000px; } </style>",unsafe_allow_html=True,) #Makes the page wide: https://discuss.streamlit.io/t/custom-render-widths/81/9
 st.title("Evolution of Covid-19 Cases in Canton Zürich per Postal Code")
-
 st.markdown('The data are provided by [@OpenDataZH](https://twitter.com/OpenDataZurich) in their [Covid-19 GitHub repository](https://github.com/openZH/covid_19). All the credit goes to them.')
 
 
@@ -15,6 +14,8 @@ pd.set_option('display.max_colwidth', None)
 
     
 cases = load_data()
+st.markdown(f'_Last update: {cases.Date.max().strftime("%Y-%m-%d")}_')
+
 colors = ['black', 'silver', 'maroon', 'red', 'purple', 'fuchsia', 'green', 'olive', 'navy', 'orange', 'azure', 'beige', 'bisque', 'blanchedalmond', 'blueviolet', 'chartreuse', 'chocolate', 'coral', 'cornflowerblue', 'cornsilk', 'crimson', 'cyan', 'darkblue', 'darkcyan', 'darkgoldenrod', 'darkgray', 'darkgreen', 'darkgrey', 'darkkhaki', 'darkmagenta', 'darkolivegreen', 'darkorange', 'darkorchid', 'darkred', 'darksalmon', 'darkseagreen', 'darkslateblue', 'darkslategray', 'darkslategrey', 'darkturquoise', 'darkviolet', 'deeppink', 'deepskyblue', 'dimgray', 'dimgrey', 'dodgerblue', 'firebrick', 'floralwhite', 'forestgreen', 'gainsboro', 'ghostwhite', 'gold', 'goldenrod', 'greenyellow', 'grey', 'honeydew', 'hotpink', 'indianred', 'indigo', 'ivory', 'khaki', 'lavender', 'lavenderblush', 'lawngreen', 'lemonchiffon', 'lightblue', 'lightcoral', 'lightcyan', 'lightgoldenrodyellow', 'lightgray', 'lightgreen', 'lightgrey', 'lightpink', 'lightsalmon', 'lightseagreen', 'lightskyblue', 'lightslategray', 'lightslategrey', 'lightsteelblue', 'lightyellow', 'limegreen', 'linen', 'magenta', 'mediumaquamarine', 'mediumblue', 'mediumorchid', 'mediumpurple', 'mediumseagreen', 'mediumslateblue', 'mediumspringgreen', 'mediumturquoise', 'mediumvioletred', 'midnightblue', 'mintcream', 'mistyrose', 'moccasin', 'navajowhite', 'oldlace', 'olivedrab', 'orangered', 'orchid', 'palegoldenrod', 'palegreen', 'paleturquoise', 'palevioletred', 'papayawhip', 'peachpuff', 'peru', 'pink', 'plum', 'powderblue', 'rosybrown', 'royalblue', 'saddlebrown', 'salmon', 'sandybrown', 'seagreen', 'seashell', 'sienna', 'skyblue', 'slateblue', 'slategray', 'slategrey', 'snow', 'springgreen', 'steelblue', 'tan', 'thistle', 'tomato', 'turquoise', 'violet', 'wheat', 'whitesmoke', 'yellowgreen', 'rebeccapurple']
 per_capita = st.checkbox("Show cases per 10000 population")
 
