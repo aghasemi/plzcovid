@@ -47,7 +47,7 @@ y_axis = alt.Y(plot_y_axis_column_avg,title=plot_y_axis_title)
 for i,plz in enumerate(chosen_plzs):
     color = colors[i]
     cases_per_plz = cases[cases.PLZ == plz]
-    chart  += alt.Chart(cases_per_plz).mark_area(opacity = 0.25,color = color).encode(x=x_axis, y=y_axis, y2=alt.Y2(plot_y_axis_column_max), tooltip = tooltip)
+    chart  += alt.Chart(cases_per_plz).mark_area(opacity = 0.25,color = color).encode(x=x_axis, y=alt.Y(plot_y_axis_column_min), y2=alt.Y2(plot_y_axis_column_max), tooltip = tooltip)
     chart  += alt.Chart(cases_per_plz).mark_line(color = color).encode(x=x_axis, y=y_axis, tooltip = tooltip)
     st.markdown(f' {cases_per_plz.iloc[0].Name} is {color}')
 
