@@ -37,7 +37,7 @@ if len(dates)<2:
 else:
     start_date, end_date = dates
 
-cases = cases[ (cases.Date >= pd.Timestamp(start_date, tz="Europe/Paris")) & (cases.Date <= pd.Timestamp(end_date, tz="Europe/Paris"))]
+cases = cases[ (cases.Date >= pd.Timestamp(start_date, tz="Europe/Paris")) & (cases.Date < pd.Timestamp(end_date + dt.Timedelta(days=1), tz="Europe/Paris"))]
 
 chart = alt.LayerChart()
 #st.markdown("### Evolution of Covid-19 cases for the chosen postal codes")
