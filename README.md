@@ -1,2 +1,2 @@
 # PLZCovid
-A Streamlit Visualisation of Covid-19 Cases In Swiss Canton of Zürich Per Postal Code
+A Streamlit visualisation of Covid-19 cases in swiss canton of Zürich per postal code. See it in action: [https://share.streamlit.io/aghasemi/plzcovid/main/app.py]
