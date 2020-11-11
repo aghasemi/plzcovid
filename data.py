@@ -7,8 +7,8 @@ from cachetools import cached, TTLCache
 plz_name = None
 cases = None 
 
-#Streamlit cache doesn't work here
-@cached(cache = TTLCache(maxsize=1, ttl = 60*60*3))         
+# Streamlit cache doesn't work here
+@cached(cache = TTLCache(maxsize=1, ttl = 60*60*1))         
 def load_data():
     #PLZ to Name Mapping
     plz_name = dict({})
