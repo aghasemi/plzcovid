@@ -1,7 +1,7 @@
 import streamlit as st 
 import pandas as pd
 import altair as alt
-
+import datetime as dt
 from data import load_data
 
 st.set_page_config(page_title='Evolution of Covid-19 Cases in Canton Zürich per Postal Code')
@@ -38,7 +38,7 @@ if len(dates)<2:
 else:
     start_date, end_date = dates
 
-cases = cases[ (cases.Date >= pd.Timestamp(start_date, tz="Europe/Paris")) & (cases.Date <= pd.Timestamp(end_date, tz="Europe/Paris"))]
+cases = cases[ (cases.Date >= pd.Timestamp(start_date, tz="Europe/Paris")) & (cases.Date < pd.Timestamp(end_date + dt.timedelta(days=1), tz="Europe/Paris"))]
 
 chart = alt.LayerChart()
 #st.markdown("### Evolution of Covid-19 cases for the chosen postal codes")
@@ -49,10 +49,10 @@ y_axis = alt.Y(plot_y_axis_column_avg,title=plot_y_axis_title)
 legend = "|Area | Color | \n | - | - | \n"
 for i,plz_name in enumerate(chosen_postal_areas):
     color = colors[i]
-    cases_per_plz = cases[cases.Name == plz_name]
-    chart  += alt.Chart(cases_per_plz).mark_area(opacity = 0.25,color = color).encode(x=x_axis, y=y_axis, y2=alt.Y2(plot_y_axis_column_max), tooltip = tooltip)
-    chart  += alt.Chart(cases_per_plz).mark_line(color = color, size=4).encode(x=x_axis, y=y_axis, tooltip = tooltip)
-    legend += (f' | {cases_per_plz.iloc[0].Name} | {color} | \n')
+    cases_per_name = cases[cases.Name == plz_name]
+    chart  += alt.Chart(cases_per_name).mark_area(opacity = 0.25,color = color).encode(x=x_axis, y=alt.Y(plot_y_axis_column_min), y2=alt.Y2(plot_y_axis_column_max), tooltip = tooltip)
+    chart  += alt.Chart(cases_per_name).mark_line(color = color, size=4).encode(x=x_axis, y=y_axis, tooltip = tooltip)
+    legend += (f' | {cases_per_name.iloc[0].Name} | {color} | \n')
 
 st.markdown(legend)
 st.markdown('Hoveryour mose on the plots for more information')
