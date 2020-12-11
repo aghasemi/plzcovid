@@ -36,7 +36,7 @@ def load_data():
     cases  = cases[cases['PLZ'].str.len() == 4] #Remove anything that is not a PLZ
     
     #Absolute numbers
-    cases['NewConfCases_7days_range'] = cases['NewConfCases_7days'].apply(lambda x: list(map(lambda s: int(s), str(x).split('-'))))
+    cases['NewConfCases_7days_range'] = cases['NewConfCases_7days'].apply(lambda x: list(map(lambda s: int(s), str(x).split('-') if '-' in str(x) else [str(x).replace('+','')]*2 )))
     cases['NewConfCases_7days_range_str'] = cases['NewConfCases_7days']#.apply(lambda x: ' - '.join(list(map(lambda s: s, str(x).split('-')))))
     cases['NewConfCases_7days_min'] = cases['NewConfCases_7days_range'].apply(lambda a: a[0])
     cases['NewConfCases_7days_max'] = cases['NewConfCases_7days_range'].apply(lambda a: a[1])
