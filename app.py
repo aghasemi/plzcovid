@@ -27,7 +27,7 @@ plot_y_axis_column_range = 'NewConfCases_7days_range_str_per10k' if per_capita e
 
 #st.markdown("### Please choose one or more postal codes")
 postal_areas = list(cases.groupby(['Name'], as_index=False).groups.keys())
-chosen_postal_areas = st.multiselect("Please choose one or more postal codes",postal_areas,['8001 Zürich','8400 Winterthur'])
+chosen_postal_areas = st.multiselect("Please choose one or more postal codes",postal_areas,['8193 Eglisau', '8180 Bülach', '8046 Zürich'])
 
 start_date = cases.Date.iloc[0].replace(tzinfo=None)
 end_date = cases.Date.iloc[-1].replace(tzinfo=None)
