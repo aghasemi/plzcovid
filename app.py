@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 import datetime as dt
+import plotly.express as px 
+import plotly.graph_objects as go
 from data import load_data
 
 st.set_page_config(page_title='Evolution of Covid-19 Cases in Canton Zürich per Postal Code')
@@ -39,21 +41,11 @@ else:
     start_date, end_date = dates
 
 cases = cases[ (cases.Date >= pd.Timestamp(start_date, tz="Europe/Paris")) & (cases.Date < pd.Timestamp(end_date + dt.timedelta(days=1), tz="Europe/Paris"))]
+cases = cases [ cases['Name'].isin(chosen_postal_areas)]
 
-chart = alt.LayerChart()
-#st.markdown("### Evolution of Covid-19 cases for the chosen postal codes")
-tooltip = ['Date',alt.Tooltip('Week_of_year',title='Week of year'),'Name','District','Population',alt.Tooltip('Area',title='Area (km²)', format='0.3'),
-    alt.Tooltip(plot_y_axis_column_range, title='Range'), alt.Tooltip('NewDeaths_in_district_in_week',title='Weekly deaths in district')] #,alt.Tooltip(plot_y_axis_column_min, title='Min', format='0.3'),
-x_axis = alt.X('Date', axis=alt.Axis(labels=True, format = '%d %b'))
-y_axis = alt.Y(plot_y_axis_column_avg,title=plot_y_axis_title)
-legend = "|Area | Color | \n | - | - | \n"
-for i,plz_name in enumerate(chosen_postal_areas):
-    color = colors[i]
-    cases_per_name = cases[cases.Name == plz_name]
-    chart  += alt.Chart(cases_per_name).mark_area(opacity = 0.25,color = color).encode(x=x_axis, y=alt.Y(plot_y_axis_column_min), y2=alt.Y2(plot_y_axis_column_max), tooltip = tooltip)
-    chart  += alt.Chart(cases_per_name).mark_line(color = color, size=4).encode(x=x_axis, y=y_axis, tooltip = tooltip)
-    legend += (f' | {cases_per_name.iloc[0].Name} | {color} | \n')
+fig = px.line(cases, x = 'Date', y = plot_y_axis_column_avg, color = 'Name', error_y = None, hover_name='Name', labels= {'Name': 'Municipality', 
+    plot_y_axis_column_avg: plot_y_axis_title, 'Week_of_year': 'Week of year', 'NewDeaths_in_district_in_week': 'Weekly deaths in district', 'Area': 'Area (km²)'}, 
+    hover_data=['Week_of_year', 'District', 'Area', 'Population', 'NewDeaths_in_district_in_week'])
+fig.update_layout({ 'legend_orientation': 'h'})
 
-st.markdown(legend)
-st.markdown('Hoveryour mose on the plots for more information')
-st.altair_chart(chart.configure_title(fontSize=14).configure(background='#F9F9F0') , use_container_width=True)
+st.plotly_chart(fig, use_container_width = True)

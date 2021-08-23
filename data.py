@@ -49,16 +49,20 @@ def load_data():
     cases['NewConfCases_7days_avg_per10k'] = .5*cases['NewConfCases_7days_max_per10k']+ 0.5*cases['NewConfCases_7days_min_per10k']
     
     cases['Date'] = pd.to_datetime(cases['Date'],utc=True)
-    cases['Week_of_year'] = cases['Date'].dt.strftime('%W')
+    cases['Week_of_year'] = cases['Date'].dt.strftime('%Y-%W')
     cases['Name'] = cases['PLZ'].apply(lambda plz: plz+' '+plz_name[plz])
     cases['Area'] = cases['PLZ'].apply(lambda plz: plz_area[plz])
     cases['District'] = cases['PLZ'].apply(lambda plz: plz_district[plz])
 
     bezirk_data = pd.read_csv('https://raw.githubusercontent.com/openZH/covid_19/master/fallzahlen_bezirke/fallzahlen_kanton_ZH_bezirk.csv')
-    bezirk_data ['District_Week'] = bezirk_data.apply(lambda row: row['District'].replace('Bezirk ','')+str(row['Week']),axis=1)
+    bezirk_data ['District_Week'] = bezirk_data.apply(lambda row: row['District'].replace('Bezirk ','')+str(row['Year'])+'-'+str(row['Week']),axis=1)
     bezirk_new_death_map = dict([(str(i),str(v)) for i, v in zip(bezirk_data ['District_Week'], bezirk_data ['NewDeaths'])])
 
-    cases['NewDeaths_in_district_in_week'] = cases.apply(lambda row: bezirk_new_death_map.get(row['District']+str(row['Week_of_year']),0),axis=1)
+    cases['NewDeaths_in_district_in_week'] = cases.apply(lambda row: bezirk_new_death_map.get(row['District']+str(row['Week_of_year']),"0"),axis=1)
 
     return cases
 
+
+if __name__=="__main__":
+    data = load_data()
+    print(set(data['NewDeaths_in_district_in_week']))
