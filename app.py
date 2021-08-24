@@ -44,8 +44,9 @@ cases = cases[ (cases.Date >= pd.Timestamp(start_date, tz="Europe/Paris")) & (ca
 cases = cases [ cases['Name'].isin(chosen_postal_areas)]
 
 fig = px.line(cases, x = 'Date', y = plot_y_axis_column_avg, color = 'Name', error_y = None, hover_name='Name', labels= {'Name': 'Municipality', 
-    plot_y_axis_column_avg: plot_y_axis_title, 'Week_of_year': 'Week of year', 'NewDeaths_in_district_in_week': 'Weekly deaths in district', 'Area': 'Area (km²)'}, 
-    hover_data=['Week_of_year', 'District', 'Area', 'Population', 'NewDeaths_in_district_in_week'])
+    plot_y_axis_column_avg: plot_y_axis_title, 'Week_of_year': 'Week of year', 
+    'NewDeaths_in_district_in_week': 'Weekly deaths in district', 'Area': 'Area (km²)', plot_y_axis_column_range: plot_y_axis_title+' (range)'}, 
+    hover_data=['Week_of_year', plot_y_axis_column_range , 'District', 'Area', 'Population', 'NewDeaths_in_district_in_week'])
 fig.update_layout({ 'legend_orientation': 'h'})
 
 st.plotly_chart(fig, use_container_width = True)
